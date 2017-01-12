@@ -144,7 +144,8 @@ DOCKER_COMPOSE_UP()
 
     local name=""
     if [ ! "${1+set}" = "set" ]; then
-        name="${composefile%.yaml}"
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
         name="${name%_docker-compose}"
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
@@ -190,8 +191,9 @@ DOCKER_COMPOSE_DOWN()
 
     local name=""
     if [ ! "${1+set}" = "set" ]; then
-        name="${composefile%%.yaml}"
-        name="${name%%_docker-compose}"
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
+        name="${name%_docker-compose}"
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
         name="${name//_}"
@@ -236,7 +238,8 @@ DOCKER_COMPOSE_PS()
 
     local name=""
     if [ ! "${1+set}" = "set" ]; then
-        name="${composefile%.yaml}"
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
         name="${name%_docker-compose}"
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
@@ -282,7 +285,8 @@ DOCKER_COMPOSE_LOGS()
 
     local name=""
     if [ ! "${1+set}" = "set" ]; then
-        name="${composefile%.yaml}"
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
         name="${name%_docker-compose}"
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
@@ -429,7 +433,7 @@ DOCKER_COMPOSE_SHEBANG()
     local composefile="${1}"
     shift
 
-    local cmd="${1-}"
+    local cmd="${1:-help}"
     shift $(( $# > 0 ? 1 : 0 ))
 
     local name=""
@@ -445,7 +449,7 @@ DOCKER_COMPOSE_SHEBANG()
         return 1
     fi
 
-    if [ "${cmd:-help}" = "help" ]; then
+    if [ "${cmd}" = "help" ]; then
         printf "%s\n" "This is the SpaceGal wrapper over docker-compose.
 Pass in a COMMAND which will get passed on to docker-compose:
     up
