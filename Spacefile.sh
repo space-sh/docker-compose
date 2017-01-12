@@ -46,7 +46,7 @@ DOCKER_COMPOSE_DEP_INSTALL()
     shift $(( $# > 0 ? 1 : 0 ))
 
     if OS_IS_INSTALLED "docker"; then
-        PRINT "Docker is already installed. To reinstall run: space -m docker /install/." "success"
+        PRINT "Docker is already installed. To reinstall run: space -m docker /install/." "ok"
     else
         DOCKER_INSTALL "${targetuser}"
         if [ "$?" -gt 0 ]; then
@@ -55,7 +55,7 @@ DOCKER_COMPOSE_DEP_INSTALL()
     fi
 
     if OS_IS_INSTALLED "docker-compose"; then
-        PRINT "Docker Compose is already installed. To reinstall run: space -m docker-compose /install/." "success"
+        PRINT "Docker Compose is already installed. To reinstall run: space -m docker-compose /install/." "ok"
     else
         DOCKER_COMPOSE_INSTALL "${targetuser}" ${composeversion}
     fi
