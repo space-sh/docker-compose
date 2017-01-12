@@ -1,0 +1,110 @@
+#
+# Copyright 2017 Blockie AB
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+_dep_install:
+    _info:
+        title: Install the latest Docker Engine and Compose
+        desc: |
+            If not
+            Downloads and installs the latest Docker Engine and Compose from Docker.
+            Also adds the "targetuser" to the docker group.
+    _env:
+        - targetuser: ${targetuser:-${SSHUSER-}}
+        - composeversion:
+        - CMD: DOCKER_COMPOSE_DEP_INSTALL "${targetuser-}" "${composeversion-}"
+
+install:
+    _info:
+        title: Install the latest Docker Engine and Compose
+        desc: |
+            Downloads and installs the latest Docker Engine and Compose
+            from Docker.
+            Also adds the targetuser to the docker group.
+            Will reinstall if already installed.
+    _env:
+        - targetuser: ${targetuser:-${SSHUSER:-$USER}}
+        - CMD: DOCKER_COMPOSE_INSTALL -- "${targetuser}"
+
+_shebang:
+    _info:
+        title: Handle shebang invocations
+        desc: |
+            In a docker-compose.yaml file you could put
+            #!/usr/bin/space -m docker-compose /_shebang/
+            as the first line to make the yaml file itself runnable.
+            Remember to chmod +x it first.
+    _env:
+        - CMD: DOCKER_COMPOSE_SHEBANG
+
+_info:
+    title: Manage Docker Compose
+    desc: |
+_env:
+    - CMD: DOCKER_COMPOSE_GENERAL
+
+up:
+    _info:
+        title: Deploy services using docker-compose
+        desc: |
+            Launch services using "docker-compose".
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - CMD: DOCKER_COMPOSE_UP -- ${composefile-} ${name-}
+
+down:
+    _info:
+        title: Un-deploy services using docker-compose
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - CMD: DOCKER_COMPOSE_DOWN -- ${composefile-} ${name-}
+
+ps:
+    _info:
+        title: Get status of services using docker-compose
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - CMD: DOCKER_COMPOSE_PS -- ${composefile-} ${name-}
+
+enter:
+    _info:
+        title: Enter with a shell into a running container
+    _env:
+        - name: ${name-}
+        - container: ${container-}
+        - cmd: ${cmd-}
+        - CMD: DOCKER_COMPOSE_ENTER -- "${name-}" "${container-}" "${cmd-}"
+
+exec:
+    _info:
+        title: Exec command in service using docker-compose
+    _env:
+        - name: ${name-}
+        - container: ${container-}
+        - flags: ${flags-}
+        - cmd: ${cmd-}
+        - args: ${args-}
+        - CMD: DOCKER_COMPOSE_EXEC -- "${name-}" "${container-}" "${flags-}" "${cmd-}" "${args-}"
+
+logs:
+    _info:
+        title: Get logs of services using docker-compose
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - CMD: DOCKER_COMPOSE_LOGS -- ${composefile-} ${name-}
