@@ -150,6 +150,7 @@ DOCKER_COMPOSE_UP()
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
         name="${name//_}"
+        name="${name//.}"
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -197,6 +198,7 @@ DOCKER_COMPOSE_DOWN()
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
         name="${name//_}"
+        name="${name//.}"
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -244,6 +246,7 @@ DOCKER_COMPOSE_PS()
         # To dodge some trouble we remove dashes and underscores from the name.
         name="${name//-}"
         name="${name//_}"
+        name="${name//.}"
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -357,6 +360,7 @@ DOCKER_COMPOSE_EXEC()
     # To dodge some trouble we remove dashes and underscores from the name.
     name="${name//-}"
     name="${name//_}"
+    name="${name//.}"
 
     if [ -n "${name}" ]; then
         container="${name}_${container}"
@@ -396,6 +400,7 @@ DOCKER_COMPOSE_ENTER()
     # To dodge some trouble we remove dashes and underscores from the name.
     name="${name//-}"
     name="${name//_}"
+    name="${name//.}"
 
     if [ -n "${name}" ]; then
         container="${name}_${container}"
@@ -410,44 +415,25 @@ DOCKER_COMPOSE_ENTER()
     SPACE_CMDARGS="\"${container}\" \"${cmd}\""
 }
 
-#=====================
-# DOCKER_COMPOSE_SHEBANG
+#=============================
 #
-# Handle the "shebang" invocations of docker-compose files.
+# _DOCKER_COMPOSE_SHEBANG_OUTER()
 #
-# Parameters:
-#   $1: path to docker compose yaml file to use.
-#   $2: docker-compose command to run
-#   $@: optional args for the command
 #
-# Returns:
-#   non-zero on error
-#
-#=====================
-DOCKER_COMPOSE_SHEBANG()
+#=============================
+_DOCKER_COMPOSE_SHEBANG_OUTER()
 {
-    SPACE_SIGNATURE="composefile [command] [args]"
+    SPACE_SIGNATURE="composefile name command [args]"
     SPACE_CMDDEP="PRINT"
-    SPACE_CMD="DOCKER_COMPOSE"
 
     local composefile="${1}"
     shift
 
-    local cmd="${1:-help}"
-    shift $(( $# > 0 ? 1 : 0 ))
+    local name="${1}"
+    shift
 
-    local name=""
-    name="${composefile%.yaml*}"
-    name="${name##*/}"
-    name="${name%_docker-compose}"
-    # To dodge some trouble we remove dashes and underscores from the name.
-    name="${name//-}"
-    name="${name//_}"
-
-    if [ -z "${name}" ]; then
-        PRINT "Could not extract a name for the composition. Rename the file into the format of NAME.yaml" "error"
-        return 1
-    fi
+    local cmd="${1}"
+    shift
 
     if [ "${cmd}" = "help" ]; then
         printf "%s\n" "This is the SpaceGal wrapper over docker-compose.
@@ -471,13 +457,59 @@ Notice that all arguments before the '--' are arguments to Space, arguments afte
 arguments to Space's 'docker-compose' module.
 
 "
-        return 1
+        return
     fi
 
     if [ ! -f "${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
+
+    _CMD_
+}
+
+#=====================
+# DOCKER_COMPOSE_SHEBANG
+#
+# Handle the "shebang" invocations of docker-compose files.
+#
+# Parameters:
+#   $1: path to docker compose yaml file to use.
+#   $2: docker-compose command to run
+#   $@: optional args for the command
+#
+# Returns:
+#   non-zero on error
+#
+#=====================
+DOCKER_COMPOSE_SHEBANG()
+{
+    SPACE_SIGNATURE="composefile [command] [args]"
+    SPACE_CMDDEP="PRINT"
+    SPACE_CMD="DOCKER_COMPOSE"
+    SPACE_CMDOUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
+
+    local composefile="${1}"
+    shift
+
+    local cmd="${1:-help}"
+    shift $(( $# > 0 ? 1 : 0 ))
+
+    local name=""
+    name="${composefile%.yaml*}"
+    name="${name##*/}"
+    name="${name%_docker-compose}"
+    # To dodge some trouble we remove dashes and underscores from the name.
+    name="${name//-}"
+    name="${name//_}"
+    name="${name//.}"
+
+    if [ -z "${name}" ]; then
+        PRINT "Could not extract a name for the composition. Rename the file into the format of NAME.yaml" "error"
+        return 1
+    fi
+
+    SPACE_CMDOUTERARGS="${composefile} ${name} ${cmd} ${@}"
 
     SPACE_CMDREDIR="<${composefile}"
     SPACE_CMDARGS="-f - -p \"${name}\" ${cmd} $@"
