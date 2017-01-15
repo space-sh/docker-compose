@@ -60,11 +60,12 @@ DOCKER_COMPOSE_DEP_INSTALL()
         DOCKER_COMPOSE_INSTALL "${targetuser}" ${composeversion}
     fi
 
-    local _version_output=$(docker-compose version)
+    local _version_output=
+    _version_output=$(docker-compose version)
     printf "%s" "$_version_output" | \
         { read -r _name _field _version _others;        \
             if [ "$_name" = "docker-compose" ]; then    \
-                _version="${_version//,/}";             \
+                _version="${_version%,}";               \
                 _version="${_version%.*}";              \
                 _version_maj="${_version%.*}";          \
                 _version_min="${_version#*.}";          \
