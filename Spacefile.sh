@@ -59,6 +59,23 @@ DOCKER_COMPOSE_DEP_INSTALL()
     else
         DOCKER_COMPOSE_INSTALL "${targetuser}" ${composeversion}
     fi
+
+    local _version_output=$(docker-compose version)
+    printf "%s" "$_version_output" | \
+        { read -r _name _field _version _others;        \
+            if [ "$_name" = "docker-compose" ]; then    \
+                _version="${_version//,/}";             \
+                _version="${_version%.*}";              \
+                _version_maj="${_version%.*}";          \
+                _version_min="${_version#*.}";          \
+                if [ "$_version_maj" -ge 1 ] && [ "$_version_min" -ge 6 ]; then \
+                    PRINT "Current docker-compose version: $_version" "debug"; \
+                else \
+                    PRINT "Minimum required docker-compose version is: 1.6" "error"; \
+                fi \
+            else \
+                PRINT "Failed to retrieve current docker-compose version" "error"; \
+            fi }
 }
 
 #======================
