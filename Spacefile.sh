@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-clone os docker
+clone os docker string
 
 #======================
 # DOCKER_COMPOSE_DEP_INSTALL
@@ -155,6 +155,7 @@ DOCKER_COMPOSE_UP()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_CMD="DOCKER_COMPOSE"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -164,10 +165,10 @@ DOCKER_COMPOSE_UP()
         name="${composefile%.yaml*}"
         name="${name##*/}"
         name="${name%_docker-compose}"
-        # To dodge some trouble we remove dashes and underscores from the name.
-        name="${name//-}"
-        name="${name//_}"
-        name="${name//.}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -203,6 +204,7 @@ DOCKER_COMPOSE_DOWN()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_CMD="DOCKER_COMPOSE"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -212,10 +214,10 @@ DOCKER_COMPOSE_DOWN()
         name="${composefile%.yaml*}"
         name="${name##*/}"
         name="${name%_docker-compose}"
-        # To dodge some trouble we remove dashes and underscores from the name.
-        name="${name//-}"
-        name="${name//_}"
-        name="${name//.}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -251,6 +253,7 @@ DOCKER_COMPOSE_PS()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_CMD="DOCKER_COMPOSE"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -260,10 +263,10 @@ DOCKER_COMPOSE_PS()
         name="${composefile%.yaml*}"
         name="${name##*/}"
         name="${name%_docker-compose}"
-        # To dodge some trouble we remove dashes and underscores from the name.
-        name="${name//-}"
-        name="${name//_}"
-        name="${name//.}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -299,6 +302,7 @@ DOCKER_COMPOSE_LOGS()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_CMD="DOCKER_COMPOSE"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -308,9 +312,10 @@ DOCKER_COMPOSE_LOGS()
         name="${composefile%.yaml*}"
         name="${name##*/}"
         name="${name%_docker-compose}"
-        # To dodge some trouble we remove dashes and underscores from the name.
-        name="${name//-}"
-        name="${name//_}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
     else
         # Prefix is given, could be "".
         local name="${1}"
@@ -361,6 +366,7 @@ DOCKER_COMPOSE_EXEC()
 {
     SPACE_SIGNATURE="name container flags cmd [args]"
     SPACE_CMD="DOCKER_EXEC"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -374,10 +380,10 @@ DOCKER_COMPOSE_EXEC()
     local cmd="${1}"
     shift
 
-    # To dodge some trouble we remove dashes and underscores from the name.
-    name="${name//-}"
-    name="${name//_}"
-    name="${name//.}"
+    # Make name docker friendly.
+    STRING_SUBST "name" "-" "" 1
+    STRING_SUBST "name" "_" "" 1
+    STRING_SUBST "name" "." "" 1
 
     if [ -n "${name}" ]; then
         container="${name}_${container}"
@@ -407,6 +413,7 @@ DOCKER_COMPOSE_ENTER()
 {
     SPACE_SIGNATURE="name container [cmd]"
     SPACE_CMD="DOCKER_ENTER"
+    SPACE_CMDDEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -414,10 +421,10 @@ DOCKER_COMPOSE_ENTER()
     local container="${1}"
     shift
 
-    # To dodge some trouble we remove dashes and underscores from the name.
-    name="${name//-}"
-    name="${name//_}"
-    name="${name//.}"
+    # Make name docker friendly.
+    STRING_SUBST "name" "-" "" 1
+    STRING_SUBST "name" "_" "" 1
+    STRING_SUBST "name" "." "" 1
 
     if [ -n "${name}" ]; then
         container="${name}_${container}"
@@ -502,7 +509,7 @@ arguments to Space's 'docker-compose' module.
 DOCKER_COMPOSE_SHEBANG()
 {
     SPACE_SIGNATURE="composefile [command] [args]"
-    SPACE_CMDDEP="PRINT"
+    SPACE_CMDDEP="PRINT STRING_SUBST"
     SPACE_CMD="DOCKER_COMPOSE"
     SPACE_CMDOUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
 
@@ -516,10 +523,10 @@ DOCKER_COMPOSE_SHEBANG()
     name="${composefile%.yaml*}"
     name="${name##*/}"
     name="${name%_docker-compose}"
-    # To dodge some trouble we remove dashes and underscores from the name.
-    name="${name//-}"
-    name="${name//_}"
-    name="${name//.}"
+    # Make name docker friendly.
+    STRING_SUBST "name" "-" "" 1
+    STRING_SUBST "name" "_" "" 1
+    STRING_SUBST "name" "." "" 1
 
     if [ -z "${name}" ]; then
         PRINT "Could not extract a name for the composition. Rename the file into the format of NAME.yaml" "error"
