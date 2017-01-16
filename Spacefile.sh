@@ -37,7 +37,7 @@ clone os docker string
 DOCKER_COMPOSE_DEP_INSTALL()
 {
     SPACE_SIGNATURE="targetuser [composeversion]"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL DOCKER_COMPOSE_INSTALL"
+    SPACE_DEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL DOCKER_COMPOSE_INSTALL"
 
     local targetuser="${1}"
     shift
@@ -104,8 +104,8 @@ DOCKER_COMPOSE_DEP_INSTALL()
 DOCKER_COMPOSE_INSTALL()
 {
     SPACE_SIGNATURE="targetuser [composeversion]"
-    SPACE_CMDDEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL"
-    SPACE_CMDENV="SUDO=\${SUDO-}"
+    SPACE_DEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL"
+    SPACE_ENV="SUDO=\${SUDO-}"
 
     local targetuser="${1}"
     shift
@@ -160,8 +160,8 @@ DOCKER_COMPOSE()
 DOCKER_COMPOSE_UP()
 {
     SPACE_SIGNATURE="composefile [name]"
-    SPACE_CMD="DOCKER_COMPOSE"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_DEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -186,8 +186,8 @@ DOCKER_COMPOSE_UP()
         return 1
     fi
 
-    SPACE_CMDREDIR="<${composefile}"
-    SPACE_CMDARGS="-f - -p \"${name}\" up -d"
+    SPACE_REDIR="<${composefile}"
+    SPACE_ARGS="-f - -p \"${name}\" up -d"
 }
 
 #=======================
@@ -209,8 +209,8 @@ DOCKER_COMPOSE_UP()
 DOCKER_COMPOSE_DOWN()
 {
     SPACE_SIGNATURE="composefile [name]"
-    SPACE_CMD="DOCKER_COMPOSE"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_DEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -235,8 +235,8 @@ DOCKER_COMPOSE_DOWN()
         return 1
     fi
 
-    SPACE_CMDREDIR="<${composefile}"
-    SPACE_CMDARGS="-f - -p \"${name}\" down"
+    SPACE_REDIR="<${composefile}"
+    SPACE_ARGS="-f - -p \"${name}\" down"
 }
 
 #=======================
@@ -258,8 +258,8 @@ DOCKER_COMPOSE_DOWN()
 DOCKER_COMPOSE_PS()
 {
     SPACE_SIGNATURE="composefile [name]"
-    SPACE_CMD="DOCKER_COMPOSE"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_DEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -284,8 +284,8 @@ DOCKER_COMPOSE_PS()
         return 1
     fi
 
-    SPACE_CMDREDIR="<${composefile}"
-    SPACE_CMDARGS="-f - -p \"${name}\" ps"
+    SPACE_REDIR="<${composefile}"
+    SPACE_ARGS="-f - -p \"${name}\" ps"
 }
 
 #=======================
@@ -307,8 +307,8 @@ DOCKER_COMPOSE_PS()
 DOCKER_COMPOSE_LOGS()
 {
     SPACE_SIGNATURE="composefile [name]"
-    SPACE_CMD="DOCKER_COMPOSE"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_DEP="STRING_SUBST"
 
     local composefile="${1}"
     shift
@@ -333,8 +333,8 @@ DOCKER_COMPOSE_LOGS()
         return 1
     fi
 
-    SPACE_CMDREDIR="<${composefile}"
-    SPACE_CMDARGS="-f - -p \"${name}\" logs"
+    SPACE_REDIR="<${composefile}"
+    SPACE_ARGS="-f - -p \"${name}\" logs"
 }
 
 #====================
@@ -371,8 +371,8 @@ DOCKER_COMPOSE_LOGS()
 DOCKER_COMPOSE_EXEC()
 {
     SPACE_SIGNATURE="name container flags cmd [args]"
-    SPACE_CMD="DOCKER_EXEC"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_EXEC"
+    SPACE_DEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -398,7 +398,7 @@ DOCKER_COMPOSE_EXEC()
     local index="1"
     container="${container}_${index}"
 
-    SPACE_CMDARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${@}\""
+    SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${@}\""
 }
 
 #=====================
@@ -418,8 +418,8 @@ DOCKER_COMPOSE_EXEC()
 DOCKER_COMPOSE_ENTER()
 {
     SPACE_SIGNATURE="name container [cmd]"
-    SPACE_CMD="DOCKER_ENTER"
-    SPACE_CMDDEP="STRING_SUBST"
+    SPACE_FN="DOCKER_ENTER"
+    SPACE_DEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -442,7 +442,7 @@ DOCKER_COMPOSE_ENTER()
     local cmd="${1-}"
     shift $(( $# > 0 ? 1 : 0 ))
 
-    SPACE_CMDARGS="\"${container}\" \"${cmd}\""
+    SPACE_ARGS="\"${container}\" \"${cmd}\""
 }
 
 #=============================
@@ -454,7 +454,7 @@ DOCKER_COMPOSE_ENTER()
 _DOCKER_COMPOSE_SHEBANG_OUTER()
 {
     SPACE_SIGNATURE="composefile name command [args]"
-    SPACE_CMDDEP="PRINT"
+    SPACE_DEP="PRINT"
 
     local composefile="${1}"
     shift
@@ -515,9 +515,9 @@ arguments to Space's 'docker-compose' module.
 DOCKER_COMPOSE_SHEBANG()
 {
     SPACE_SIGNATURE="composefile [command] [args]"
-    SPACE_CMDDEP="PRINT STRING_SUBST"
-    SPACE_CMD="DOCKER_COMPOSE"
-    SPACE_CMDOUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
+    SPACE_DEP="PRINT STRING_SUBST"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_OUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
 
     local composefile="${1}"
     shift
@@ -539,8 +539,8 @@ DOCKER_COMPOSE_SHEBANG()
         return 1
     fi
 
-    SPACE_CMDOUTERARGS="${composefile} ${name} ${cmd} ${@}"
+    SPACE_OUTERARGS="${composefile} ${name} ${cmd} ${@}"
 
-    SPACE_CMDREDIR="<${composefile}"
-    SPACE_CMDARGS="-f - -p \"${name}\" ${cmd} $@"
+    SPACE_REDIR="<${composefile}"
+    SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
 }
