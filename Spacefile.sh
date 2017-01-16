@@ -345,7 +345,7 @@ DOCKER_COMPOSE_LOGS()
 # The "name" is the name of the Docker composition, which usually is the
 # part of the docker compose file as "name-docker-compose.yaml".
 #
-# The "container" is the container name as stated in the docker compse yaml file
+# The "container" is the container name as stated in the docker compose yaml file
 # (without any index prefix).
 #
 # flags are usually set to "-i" or "-it" if you want a terminal connected.
