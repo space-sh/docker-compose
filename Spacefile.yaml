@@ -24,7 +24,7 @@ _dep_install:
     _env:
         - targetuser: ${targetuser:-${SSHUSER-}}
         - composeversion:
-        - CMD: DOCKER_COMPOSE_DEP_INSTALL "${targetuser-}" "${composeversion-}"
+        - RUN: DOCKER_COMPOSE_DEP_INSTALL "${targetuser-}" "${composeversion-}"
 
 install:
     _info:
@@ -36,7 +36,7 @@ install:
             Will reinstall if already installed.
     _env:
         - targetuser: ${targetuser:-${SSHUSER:-$USER}}
-        - CMD: DOCKER_COMPOSE_INSTALL -- "${targetuser}"
+        - RUN: DOCKER_COMPOSE_INSTALL -- "${targetuser}"
 
 _shebang:
     _info:
@@ -47,13 +47,7 @@ _shebang:
             as the first line to make the yaml file itself runnable.
             Remember to chmod +x it first.
     _env:
-        - CMD: DOCKER_COMPOSE_SHEBANG
-
-_info:
-    title: Manage Docker Compose
-    desc: |
-_env:
-    - CMD: DOCKER_COMPOSE_GENERAL
+        - RUN: DOCKER_COMPOSE_SHEBANG
 
 up:
     _info:
@@ -63,7 +57,7 @@ up:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - CMD: DOCKER_COMPOSE_UP -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_UP -- ${composefile-} ${name-}
 
 down:
     _info:
@@ -71,7 +65,7 @@ down:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - CMD: DOCKER_COMPOSE_DOWN -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_DOWN -- ${composefile-} ${name-}
 
 ps:
     _info:
@@ -79,7 +73,7 @@ ps:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - CMD: DOCKER_COMPOSE_PS -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_PS -- ${composefile-} ${name-}
 
 enter:
     _info:
@@ -88,7 +82,7 @@ enter:
         - name: ${name-}
         - container: ${container-}
         - cmd: ${cmd-}
-        - CMD: DOCKER_COMPOSE_ENTER -- "${name-}" "${container-}" "${cmd-}"
+        - RUN: DOCKER_COMPOSE_ENTER -- "${name-}" "${container-}" "${cmd-}"
 
 exec:
     _info:
@@ -99,7 +93,7 @@ exec:
         - flags: ${flags-}
         - cmd: ${cmd-}
         - args: ${args-}
-        - CMD: DOCKER_COMPOSE_EXEC -- "${name-}" "${container-}" "${flags-}" "${cmd-}" "${args-}"
+        - RUN: DOCKER_COMPOSE_EXEC -- "${name-}" "${container-}" "${flags-}" "${cmd-}" "${args-}"
 
 logs:
     _info:
@@ -107,4 +101,4 @@ logs:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - CMD: DOCKER_COMPOSE_LOGS -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_LOGS -- ${composefile-} ${name-}

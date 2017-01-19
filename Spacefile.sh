@@ -105,7 +105,7 @@ DOCKER_COMPOSE_INSTALL()
 {
     SPACE_SIGNATURE="targetuser [composeversion]"
     SPACE_DEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL"
-    SPACE_ENV="SUDO=\${SUDO-}"
+    SPACE_ENV="SUDO=${SUDO-}"
 
     local targetuser="${1}"
     shift
@@ -495,7 +495,7 @@ arguments to Space's 'docker-compose' module.
         return 1
     fi
 
-    _CMD_
+    _RUN_
 }
 
 #=====================
