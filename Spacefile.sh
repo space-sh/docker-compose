@@ -138,7 +138,7 @@ DOCKER_COMPOSE_INSTALL()
 DOCKER_COMPOSE()
 {
     SPACE_SIGNATURE="args"
-    docker-compose "${@}"
+    docker-compose "$@"
 }
 
 #=====================
@@ -398,7 +398,7 @@ DOCKER_COMPOSE_EXEC()
     local index="1"
     container="${container}_${index}"
 
-    SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${@}\""
+    SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"$@\""
 }
 
 #=====================
@@ -539,7 +539,7 @@ DOCKER_COMPOSE_SHEBANG()
         return 1
     fi
 
-    SPACE_OUTERARGS="${composefile} ${name} ${cmd} ${@}"
+    SPACE_OUTERARGS="${composefile} ${name} ${cmd} $@"
 
     SPACE_REDIR="<${composefile}"
     SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
