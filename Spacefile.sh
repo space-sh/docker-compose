@@ -161,7 +161,8 @@ DOCKER_COMPOSE_UP()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_FN="DOCKER_COMPOSE"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
 
     local composefile="${1}"
     shift
@@ -186,8 +187,10 @@ DOCKER_COMPOSE_UP()
         return 1
     fi
 
-    SPACE_REDIR="<${composefile}"
-    SPACE_ARGS="-f - -p \"${name}\" up -d"
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" up -d"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
 }
 
 #=======================
@@ -210,7 +213,8 @@ DOCKER_COMPOSE_DOWN()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_FN="DOCKER_COMPOSE"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
 
     local composefile="${1}"
     shift
@@ -235,8 +239,10 @@ DOCKER_COMPOSE_DOWN()
         return 1
     fi
 
-    SPACE_REDIR="<${composefile}"
-    SPACE_ARGS="-f - -p \"${name}\" down"
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" down"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
 }
 
 #=======================
@@ -259,7 +265,8 @@ DOCKER_COMPOSE_PS()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_FN="DOCKER_COMPOSE"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
 
     local composefile="${1}"
     shift
@@ -284,8 +291,10 @@ DOCKER_COMPOSE_PS()
         return 1
     fi
 
-    SPACE_REDIR="<${composefile}"
-    SPACE_ARGS="-f - -p \"${name}\" ps"
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" ps"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
 }
 
 #=======================
@@ -308,7 +317,8 @@ DOCKER_COMPOSE_LOGS()
 {
     SPACE_SIGNATURE="composefile [name]"
     SPACE_FN="DOCKER_COMPOSE"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
 
     local composefile="${1}"
     shift
@@ -333,8 +343,10 @@ DOCKER_COMPOSE_LOGS()
         return 1
     fi
 
-    SPACE_REDIR="<${composefile}"
-    SPACE_ARGS="-f - -p \"${name}\" logs"
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" logs"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
 }
 
 #====================
@@ -372,7 +384,8 @@ DOCKER_COMPOSE_EXEC()
 {
     SPACE_SIGNATURE="name container flags cmd [args]"
     SPACE_FN="DOCKER_EXEC"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -398,7 +411,8 @@ DOCKER_COMPOSE_EXEC()
     local index="1"
     container="${container}_${index}"
 
-    SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"$@\""
+    local SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"$@\""
+    YIELD "SPACE_ARGS"
 }
 
 #=====================
@@ -419,7 +433,8 @@ DOCKER_COMPOSE_ENTER()
 {
     SPACE_SIGNATURE="name container [cmd]"
     SPACE_FN="DOCKER_ENTER"
-    SPACE_DEP="STRING_SUBST"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST"
 
     local name="${1}"
     shift
@@ -442,7 +457,8 @@ DOCKER_COMPOSE_ENTER()
     local cmd="${1-}"
     shift $(( $# > 0 ? 1 : 0 ))
 
-    SPACE_ARGS="\"${container}\" \"${cmd}\""
+    local SPACE_ARGS="\"${container}\" \"${cmd}\""
+    YIELD "SPACE_ARGS"
 }
 
 #=============================
@@ -515,9 +531,10 @@ arguments to Space's 'docker-compose' module.
 DOCKER_COMPOSE_SHEBANG()
 {
     SPACE_SIGNATURE="composefile [command] [args]"
-    SPACE_DEP="PRINT STRING_SUBST"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_OUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
 
     local composefile="${1}"
     shift
@@ -539,8 +556,10 @@ DOCKER_COMPOSE_SHEBANG()
         return 1
     fi
 
-    SPACE_OUTERARGS="${composefile} ${name} ${cmd} $@"
+    local SPACE_OUTERARGS="${composefile} ${name} ${cmd} $@"
 
-    SPACE_REDIR="<${composefile}"
-    SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
 }
