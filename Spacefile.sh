@@ -14,8 +14,6 @@
 # limitations under the License.
 #
 
-clone os docker string
-
 #======================
 # DOCKER_COMPOSE_DEP_INSTALL
 #
