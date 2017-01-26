@@ -555,6 +555,7 @@ DOCKER_COMPOSE_SHEBANG()
     fi
 
     local SPACE_OUTERARGS="${composefile} ${name} ${cmd} $@"
+    YIELD "SPACE_OUTERARGS"
 
     local SPACE_REDIR="<${composefile}"
     local SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
