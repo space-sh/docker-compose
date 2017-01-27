@@ -161,6 +161,7 @@ DOCKER_COMPOSE_UP()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
 
     local composefile="${1}"
     shift
@@ -180,7 +181,7 @@ DOCKER_COMPOSE_UP()
         shift
     fi
 
-    if [ ! -f "${composefile}" ]; then
+    if [ ! -f "${CWD}/${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -213,6 +214,7 @@ DOCKER_COMPOSE_DOWN()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
 
     local composefile="${1}"
     shift
@@ -232,7 +234,7 @@ DOCKER_COMPOSE_DOWN()
         shift
     fi
 
-    if [ ! -f "${composefile}" ]; then
+    if [ ! -f "${CWD}/${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -265,6 +267,7 @@ DOCKER_COMPOSE_PS()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
 
     local composefile="${1}"
     shift
@@ -284,7 +287,7 @@ DOCKER_COMPOSE_PS()
         shift
     fi
 
-    if [ ! -f "${composefile}" ]; then
+    if [ ! -f "${CWD}/${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -313,10 +316,11 @@ DOCKER_COMPOSE_PS()
 #=======================
 DOCKER_COMPOSE_LOGS()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile [name args]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
 
     local composefile="${1}"
     shift
@@ -336,13 +340,13 @@ DOCKER_COMPOSE_LOGS()
         shift
     fi
 
-    if [ ! -f "${composefile}" ]; then
+    if [ ! -f "${CWD}/${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
 
     local SPACE_REDIR="<${composefile}"
-    local SPACE_ARGS="-f - -p \"${name}\" logs"
+    local SPACE_ARGS="-f - -p \"${name}\" logs $*"
     YIELD "SPACE_REDIR"
     YIELD "SPACE_ARGS"
 }
@@ -383,7 +387,7 @@ DOCKER_COMPOSE_EXEC()
     SPACE_SIGNATURE="name container flags cmd [args]"
     SPACE_FN="DOCKER_EXEC"
     SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST"
+    SPACE_BUILDDEP="STRING_SUBST _escape"
 
     local name="${1}"
     shift
@@ -409,7 +413,10 @@ DOCKER_COMPOSE_EXEC()
     local index="1"
     container="${container}_${index}"
 
-    local SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"$@\""
+    local _args="$@"
+    _escape "_args"
+
+    local SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${_args}\""
     YIELD "SPACE_ARGS"
 }
 
@@ -532,7 +539,7 @@ DOCKER_COMPOSE_SHEBANG()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_OUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
     SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDDEP="STRING_SUBST PRINT _escape"
 
     local composefile="${1}"
     shift
@@ -554,11 +561,14 @@ DOCKER_COMPOSE_SHEBANG()
         return 1
     fi
 
-    local SPACE_OUTERARGS="${composefile} ${name} ${cmd} $@"
+    local _args="$@"
+    _escape "_args"
+
+    local SPACE_OUTERARGS="${composefile} ${name} ${cmd}  \"${_args}\""
     YIELD "SPACE_OUTERARGS"
 
     local SPACE_REDIR="<${composefile}"
-    local SPACE_ARGS="-f - -p \"${name}\" ${cmd} $@"
+    local SPACE_ARGS="-f - -p \"${name}\" ${cmd}  \"${_args}\""
     YIELD "SPACE_REDIR"
     YIELD "SPACE_ARGS"
 }
