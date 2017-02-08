@@ -32,15 +32,13 @@ _dep_install:
 
 install:
     _info:
-        title: Install the latest Docker Engine and Compose
+        title: Install the latest Docker Compose
         desc: |
-            Downloads and installs the latest Docker Engine and Compose
-            from Docker.
-            Also adds the targetuser to the docker group.
+            Downloads and installs the latest Docker Compose.
             Will reinstall if already installed.
     _env:
-        - targetuser: ${targetuser:-${SSHUSER:-$USER}}
-        - RUN: DOCKER_COMPOSE_INSTALL -- "${targetuser}"
+        - composeversion:
+        - RUN: DOCKER_COMPOSE_INSTALL "${composeversion-}"
 
 _shebang:
     _info:
@@ -61,7 +59,7 @@ up:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - RUN: DOCKER_COMPOSE_UP -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_UP -- "${composefile-}" ${name-}
 
 down:
     _info:
@@ -69,7 +67,7 @@ down:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - RUN: DOCKER_COMPOSE_DOWN -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_DOWN -- "${composefile-}" ${name-}
 
 ps:
     _info:
@@ -77,7 +75,7 @@ ps:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - RUN: DOCKER_COMPOSE_PS -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${name-}
 
 enter:
     _info:
@@ -105,5 +103,5 @@ logs:
     _env:
         - name: ${name-}
         - composefile: ${composefile-}
-        - RUN: DOCKER_COMPOSE_LOGS -- ${composefile-} ${name-}
+        - RUN: DOCKER_COMPOSE_LOGS -- "${composefile-}" ${name-}
 ...
