@@ -14,7 +14,9 @@
 # limitations under the License.
 #
 ---
-@clone: os docker string
+_clone:
+    @clone: os docker string
+@include: |/_clone/
 
 _dep_install:
     _info:
