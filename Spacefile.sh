@@ -161,6 +161,10 @@ DOCKER_COMPOSE_UP()
     local composefile="${1}"
     shift
 
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
     local name=""
     if [ ! "${1+set}" = "set" ]; then
         name="${composefile%.yaml*}"
@@ -176,7 +180,7 @@ DOCKER_COMPOSE_UP()
         shift
     fi
 
-    if [ ! -f "${CWD}/${composefile}" ]; then
+    if [ ! -f "${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -214,6 +218,10 @@ DOCKER_COMPOSE_DOWN()
     local composefile="${1}"
     shift
 
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
     local name=""
     if [ ! "${1+set}" = "set" ]; then
         name="${composefile%.yaml*}"
@@ -229,7 +237,7 @@ DOCKER_COMPOSE_DOWN()
         shift
     fi
 
-    if [ ! -f "${CWD}/${composefile}" ]; then
+    if [ ! -f "${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -267,6 +275,10 @@ DOCKER_COMPOSE_PS()
     local composefile="${1}"
     shift
 
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
     local name=""
     if [ ! "${1+set}" = "set" ]; then
         name="${composefile%.yaml*}"
@@ -282,7 +294,7 @@ DOCKER_COMPOSE_PS()
         shift
     fi
 
-    if [ ! -f "${CWD}/${composefile}" ]; then
+    if [ ! -f "${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
@@ -320,6 +332,10 @@ DOCKER_COMPOSE_LOGS()
     local composefile="${1}"
     shift
 
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
     local name=""
     if [ ! "${1+set}" = "set" ]; then
         name="${composefile%.yaml*}"
@@ -335,7 +351,7 @@ DOCKER_COMPOSE_LOGS()
         shift
     fi
 
-    if [ ! -f "${CWD}/${composefile}" ]; then
+    if [ ! -f "${composefile}" ]; then
         PRINT "Docker Compose file: ${composefile} not found." "error"
         return 1
     fi
