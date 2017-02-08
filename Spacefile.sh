@@ -85,11 +85,10 @@ DOCKER_COMPOSE_DEP_INSTALL()
 #======================
 # DOCKER_COMPOSE_INSTALL
 #
-# Install latest Docker on and make it available to the user.
+# Install latest Docker Compose.
 #
 # Parameters:
-#   $1: user to add to docker group.
-#   $2: the compose version to download and install (optional).
+#   $1: the compose version to download and install (optional).
 #
 # Expects:
 #   ${SUDO}: set to "sudo" to run as sudo.
@@ -101,23 +100,19 @@ DOCKER_COMPOSE_DEP_INSTALL()
 #======================
 DOCKER_COMPOSE_INSTALL()
 {
-    SPACE_SIGNATURE="targetuser [composeversion]"
-    SPACE_DEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL"
+    SPACE_SIGNATURE="[composeversion]"
+    SPACE_DEP="PRINT OS_IS_INSTALLED"
     SPACE_ENV="SUDO=${SUDO-}"
-
-    local targetuser="${1}"
-    shift
 
     local composeversion="${1:-1.9.0}"
     shift $(( $# > 0 ? 1 : 0 ))
 
     local SUDO="${SUDO-}"
 
-    PRINT "Install Docker Engine and Compose.." "info"
+    PRINT "Install Docker Compose.." "info"
 
-    DOCKER_INSTALL "${targetuser}" &&
     OS_IS_INSTALLED "curl" "curl" &&
-    ${SUDO} curl -sSL "https://github.com/docker/compose/releases/download/{$composeversion}/docker-compose-$(uname -s)-$(uname -m)" | ${SUDO} tee "/usr/local/bin/docker-compose" &&
+    ${SUDO} curl -sSL "https://github.com/docker/compose/releases/download/{$composeversion}/docker-compose-$(uname -s)-$(uname -m)" | ${SUDO} tee "/usr/local/bin/docker-compose" >/dev/null &&
     ${SUDO} chmod +x /usr/local/bin/docker-compose
 }
 
