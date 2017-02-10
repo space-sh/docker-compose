@@ -306,6 +306,121 @@ DOCKER_COMPOSE_PS()
 }
 
 #=======================
+# DOCKER_COMPOSE_PULL
+#
+# Take a docker compose file and pull images for all services.
+#
+# This is wrapper so that we can figure out the yaml path
+# and set the redirection correctly.
+#
+# Parameters:
+#   $1: path to docker compose yaml file to use.
+#   $2: name, optional name for the compose.
+#
+# Returns:
+#   non-zero on error.
+#
+#=======================
+DOCKER_COMPOSE_PULL()
+{
+    SPACE_SIGNATURE="composefile [name]"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
+
+    local composefile="${1}"
+    shift
+
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
+    local name=""
+    if [ ! "${1+set}" = "set" ]; then
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
+        name="${name%_docker-compose}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
+    else
+        # Prefix is given, could be "".
+        local name="${1}"
+        shift
+    fi
+
+    if [ ! -f "${composefile}" ]; then
+        PRINT "Docker Compose file: ${composefile} not found." "error"
+        return 1
+    fi
+
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" pull"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
+}
+
+#=======================
+# DOCKER_COMPOSE_RM
+#
+# Take a docker compose file and remove all services.
+#
+# This is wrapper so that we can figure out the yaml path
+# and set the redirection correctly.
+#
+# Parameters:
+#   $1: path to docker compose yaml file to use.
+#   $2: name, optional name for the compose.
+#
+# Returns:
+#   non-zero on error.
+#
+#=======================
+DOCKER_COMPOSE_RM()
+{
+    SPACE_SIGNATURE="composefile [name]"
+    SPACE_FN="DOCKER_COMPOSE"
+    SPACE_BUILDARGS="${SPACE_ARGS}"
+    SPACE_BUILDDEP="STRING_SUBST PRINT"
+    SPACE_BUILDENV="CWD"
+
+    local composefile="${1}"
+    shift
+
+    if [ "${composefile:0:1}" != "/" ]; then
+        composefile="${CWD}/${composefile}"
+    fi
+
+    local name=""
+    if [ ! "${1+set}" = "set" ]; then
+        name="${composefile%.yaml*}"
+        name="${name##*/}"
+        name="${name%_docker-compose}"
+        # Make name docker friendly.
+        STRING_SUBST "name" "-" "" 1
+        STRING_SUBST "name" "_" "" 1
+        STRING_SUBST "name" "." "" 1
+    else
+        # Prefix is given, could be "".
+        local name="${1}"
+        shift
+    fi
+
+    if [ ! -f "${composefile}" ]; then
+        PRINT "Docker Compose file: ${composefile} not found." "error"
+        return 1
+    fi
+
+    local SPACE_REDIR="<${composefile}"
+    local SPACE_ARGS="-f - -p \"${name}\" rm -f"
+    YIELD "SPACE_REDIR"
+    YIELD "SPACE_ARGS"
+}
+
+
+#=======================
 # DOCKER_COMPOSE_LOGS
 #
 # Take a docker compose file and get the logs of the services.

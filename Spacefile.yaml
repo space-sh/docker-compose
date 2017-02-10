@@ -76,6 +76,21 @@ ps:
         - name: ${name-}
         - composefile: ${composefile-}
         - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${name-}
+rm:
+    _info:
+        title: Remove all services using docker-compose
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - RUN: DOCKER_COMPOSE_RM -- "${composefile-}" ${name-}
+
+pull:
+    _info:
+        title: Pull all service images using docker-compose
+    _env:
+        - name: ${name-}
+        - composefile: ${composefile-}
+        - RUN: DOCKER_COMPOSE_PULL -- "${composefile-}" ${name-}
 
 enter:
     _info:
