@@ -59,7 +59,7 @@ DOCKER_COMPOSE_DEP_INSTALL()
     if OS_IS_INSTALLED "docker-compose"; then
         PRINT "Docker Compose is already installed. To reinstall run: space -m docker-compose /install/." "ok"
     else
-        DOCKER_COMPOSE_INSTALL "${targetuser}" ${composeversion}
+        DOCKER_COMPOSE_INSTALL "${targetuser}" "${composeversion}"
     fi
 
     # Read docker-compose version
