@@ -14,6 +14,10 @@
 # limitations under the License.
 #
 
+
+# Disable warning about checking exit code indirectly
+# shellcheck disable=2181
+
 #======================
 # DOCKER_COMPOSE_DEP_INSTALL
 #
