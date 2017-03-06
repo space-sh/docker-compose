@@ -106,6 +106,7 @@ DOCKER_COMPOSE_INSTALL()
 {
     SPACE_SIGNATURE="[composeversion]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"
+    # shellcheck disable=2034
     SPACE_ENV="SUDO=${SUDO-}"
 
     local composeversion="${1:-1.9.0}"
@@ -446,6 +447,7 @@ DOCKER_COMPOSE_LOGS()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
+    # shellcheck disable=2034
     SPACE_BUILDENV="CWD"
 
     local composefile="${1}"
@@ -605,6 +607,7 @@ DOCKER_COMPOSE_ENTER()
 _DOCKER_COMPOSE_SHEBANG_OUTER()
 {
     SPACE_SIGNATURE="composefile name command [args]"
+    # shellcheck disable=2034
     SPACE_DEP="PRINT"
 
     local composefile="${1}"
@@ -665,10 +668,15 @@ arguments to Space's 'docker-compose' module.
 #=====================
 DOCKER_COMPOSE_SHEBANG()
 {
+    # shellcheck disable=2034
     SPACE_SIGNATURE="composefile [command] [args]"
+    # shellcheck disable=2034
     SPACE_FN="DOCKER_COMPOSE"
+    # shellcheck disable=2034
     SPACE_OUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
+    # shellcheck disable=2034
     SPACE_BUILDARGS="${SPACE_ARGS}"
+    # shellcheck disable=2034
     SPACE_BUILDDEP="STRING_SUBST PRINT _escape"
 
     local composefile="${1}"
@@ -694,9 +702,11 @@ DOCKER_COMPOSE_SHEBANG()
     local _args="$@"
     _escape "_args"
 
+    # shellcheck disable=2034
     local SPACE_OUTERARGS="${composefile} ${name} ${cmd}  \"${_args}\""
     YIELD "SPACE_OUTERARGS"
 
+    # shellcheck disable=2034
     local SPACE_REDIR="<${composefile}"
     local SPACE_ARGS="-f - -p \"${name}\" ${cmd}  \"${_args}\""
     YIELD "SPACE_REDIR"
