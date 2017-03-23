@@ -11,6 +11,7 @@ Get logs of services using _Docker Compose_, based on a _Docker Compose_ configu
 
 ## Example
 
+Displays log output from all services defined in `docker-compose.yaml` configuration file:
 ```sh
 space -m docker-compose /logs/ -- docker-compose.yaml
 ```

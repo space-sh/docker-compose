@@ -6,11 +6,12 @@ weight: 200
 ---
 # Docker-compose module: Enter
 
-Enter with a shell into a running container.
+Enter into shell in a running container.
 
 
 ## Example
 
+Enter into shell in container named `space_container`:
 ```sh
 space -m docker-compose /enter/ -econtainer=space_container
 ```

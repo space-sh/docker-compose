@@ -17,5 +17,6 @@ Modules:
 + os  
 
 External:  
++ curl  
 + docker  
 + docker-compose  

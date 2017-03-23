@@ -11,6 +11,7 @@ Remove all services using _Docker Compose_, based on a _Docker Compose_ configur
 
 ## Example
 
+Remove stopped all stopped services defined in `docker-compose.yaml` configuration file:
 ```sh
 space -m docker-compose /rm/ -- docker-compose.yaml
 ```
