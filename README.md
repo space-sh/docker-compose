@@ -1,6 +1,4 @@
-# Manage Docker Compose | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/build.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
-
-|
+#  | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/build.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
 
 
 ## /down/
@@ -16,12 +14,11 @@
 
 
 ## /install/
-	Install the latest Docker Engine and Compose
+	Install the latest Docker Compose
 
-	Downloads and installs the latest Docker Engine and Compose
-	from Docker.
-	Also adds the targetuser to the docker group.
+	Downloads and installs the latest Docker Compose.
 	Will reinstall if already installed.
+	
 
 
 ## /logs/
@@ -32,10 +29,19 @@
 	Get status of services using docker-compose
 
 
+## /pull/
+	Pull all service images using docker-compose
+
+
+## /rm/
+	Remove all services using docker-compose
+
+
 ## /up/
 	Deploy services using docker-compose
 
 	Launch services using "docker-compose".
+	
 
 
 # Functions 
@@ -64,11 +70,10 @@ installed otherwise install them.
   
   
   
-Install latest Docker on and make it available to the user.  
+Install latest Docker Compose.  
   
 ### Parameters:  
-- $1: user to add to docker group.  
-- $2: the compose version to download and install (optional).  
+- $1: the compose version to download and install (optional).  
   
 ### Expects:  
 - ${SUDO}: set to "sudo" to run as sudo.  
@@ -134,6 +139,42 @@ and set the redirection correctly.
   
   
 Take a docker compose file and check the status of the services.  
+  
+This is wrapper so that we can figure out the yaml path  
+and set the redirection correctly.  
+  
+### Parameters:  
+- $1: path to docker compose yaml file to use.  
+- $2: name, optional name for the compose.  
+  
+### Returns:  
+- non-zero on error.  
+  
+  
+  
+## DOCKER\_COMPOSE\_PULL()  
+  
+  
+  
+Take a docker compose file and pull images for all services.  
+  
+This is wrapper so that we can figure out the yaml path  
+and set the redirection correctly.  
+  
+### Parameters:  
+- $1: path to docker compose yaml file to use.  
+- $2: name, optional name for the compose.  
+  
+### Returns:  
+- non-zero on error.  
+  
+  
+  
+## DOCKER\_COMPOSE\_RM()  
+  
+  
+  
+Take a docker compose file and remove all services.  
   
 This is wrapper so that we can figure out the yaml path  
 and set the redirection correctly.  
