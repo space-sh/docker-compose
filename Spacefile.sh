@@ -513,7 +513,7 @@ DOCKER_COMPOSE_EXEC()
     SPACE_SIGNATURE="name container flags cmd [args]"
     SPACE_FN="DOCKER_EXEC"
     SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST _escape"
+    SPACE_BUILDDEP="STRING_SUBST STRING_ESCAPE"
 
     local name="${1}"
     shift
@@ -540,7 +540,7 @@ DOCKER_COMPOSE_EXEC()
     container="${container}_${index}"
 
     local _args="$@"
-    _escape "_args"
+    STRING_ESCAPE "_args"
 
     local SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${_args}\""
     YIELD "SPACE_ARGS"
@@ -619,6 +619,7 @@ Pass in a COMMAND which will get passed on to docker-compose:
     down
     stop
     ps
+    pull
     logs
     etc
 
@@ -665,7 +666,7 @@ DOCKER_COMPOSE_SHEBANG()
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_OUTER="_DOCKER_COMPOSE_SHEBANG_OUTER"
     SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST PRINT _escape"
+    SPACE_BUILDDEP="STRING_SUBST PRINT STRING_ESCAPE"
 
     local composefile="${1}"
     shift
@@ -688,13 +689,16 @@ DOCKER_COMPOSE_SHEBANG()
     fi
 
     local _args="$@"
-    _escape "_args"
+    if [ "${cmd}" = "rm" ] && [ -z "${_args}" ]; then
+        _args="-f"
+    fi
+    STRING_ESCAPE "_args"
 
-    local SPACE_OUTERARGS="${composefile} ${name} ${cmd}  \"${_args}\""
+    local SPACE_OUTERARGS="${composefile} ${name} ${cmd} ${_args:+\"${_args}\"}"
     YIELD "SPACE_OUTERARGS"
 
     local SPACE_REDIR="<${composefile}"
-    local SPACE_ARGS="-f - -p \"${name}\" ${cmd}  \"${_args}\""
+    local SPACE_ARGS="-f - -p \"${name}\" ${cmd} ${_args:+\"${_args}\"}"
     YIELD "SPACE_REDIR"
     YIELD "SPACE_ARGS"
 }

@@ -45,9 +45,12 @@ _shebang:
         title: Handle shebang invocations
         desc: |
             In a docker-compose.yaml file you could put
-            #!/usr/bin/space -m docker-compose /_shebang/
+            For Linux:
+                #!/usr/bin/space -m docker-compose /_shebang/
+            For OSX/BSD
+                #!/usr/bin/env space ! -m docker-compose /_shebang/ !
             as the first line to make the yaml file itself runnable.
-            Remember to chmod +x it first.
+            Remember to chmod +x it.
     _env:
         - RUN: DOCKER_COMPOSE_SHEBANG
 
