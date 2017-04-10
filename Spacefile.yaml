@@ -215,4 +215,6 @@ _list:
     @include: docker|/ps/
     _env:
         - SPACE_ARGS: --format "{{.Names}}" -|
+        - SPACE_REDIR: "2>/dev/null"
+        - SPACE_SILENT: 1
 ...
