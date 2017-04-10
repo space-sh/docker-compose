@@ -18,17 +18,19 @@ _clone:
     @clone: os docker string
 @include: |/_clone/
 
+_info:
+    title: Docker Compose management.
+
 _dep_install:
     _info:
         title: Install the latest Docker Engine and Compose
         desc: |
-            If not
             Downloads and installs the latest Docker Engine and Compose from Docker.
             Also adds the "targetuser" to the docker group.
     _env:
         - targetuser: ${targetuser:-${SSHUSER-}}
         - composeversion:
-        - RUN: DOCKER_COMPOSE_DEP_INSTALL "${targetuser-}" "${composeversion-}"
+        - RUN: DOCKER_COMPOSE_DEP_INSTALL -- "${targetuser-}" "${composeversion-}"
 
 install:
     _info:
@@ -38,7 +40,13 @@ install:
             Will reinstall if already installed.
     _env:
         - composeversion:
-        - RUN: DOCKER_COMPOSE_INSTALL "${composeversion-}"
+            title: What version of Compose to install, leave blank for default.
+        - SPACE_ARGS:
+            arguments:
+                -
+                    values:
+                        - version
+        - RUN: DOCKER_COMPOSE_INSTALL -- "${composeversion-}"
 
 _shebang:
     _info:
@@ -60,66 +68,151 @@ up:
         desc: |
             Launch services using "docker-compose".
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_UP -- "${composefile-}" ${name-}
 
 down:
     _info:
         title: Un-deploy services using docker-compose
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_DOWN -- "${composefile-}" ${name-}
 
 ps:
     _info:
         title: Get status of services using docker-compose
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${name-}
 rm:
     _info:
         title: Remove all services using docker-compose
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_RM -- "${composefile-}" ${name-}
 
 pull:
     _info:
         title: Pull all service images using docker-compose
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_PULL -- "${composefile-}" ${name-}
-
-enter:
-    _info:
-        title: Enter with a shell into a running container
-    _env:
-        - name: ${name-}
-        - container: ${container-}
-        - cmd: ${cmd-}
-        - RUN: DOCKER_COMPOSE_ENTER -- "${name-}" "${container-}" "${cmd-}"
-
-exec:
-    _info:
-        title: Exec command in service using docker-compose
-    _env:
-        - name: ${name-}
-        - container: ${container-}
-        - flags: ${flags-}
-        - cmd: ${cmd-}
-        - args: ${args-}
-        - RUN: DOCKER_COMPOSE_EXEC -- "${name-}" "${container-}" "${flags-}" "${cmd-}" "${args-}"
 
 logs:
     _info:
         title: Get logs of services using docker-compose
     _env:
-        - name: ${name-}
-        - composefile: ${composefile-}
+        - name:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
+        - composefile:
+            title: The Docker Compose file
+            completion: G
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: G
         - RUN: DOCKER_COMPOSE_LOGS -- "${composefile-}" ${name-}
+
+enter:
+    @prefix: @{PARENTPATH}
+    @dotdot: prefix
+    _info:
+        title: Enter with a shell into a running container
+    _env:
+        - container:
+            completion: @{prefix}_list/
+        - shell:
+            title: Shell to enter container with, defaults to sh
+            values:
+                - sh
+                - bash
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: @{prefix}_list/
+                -
+                    values:
+                        - sh
+                        - bash
+        - RUN: DOCKER_ENTER -- "${container-}" "${shell-}"
+
+exec:
+    @prefix: @{PARENTPATH}
+    @dotdot: prefix
+    _info:
+        title: Exec command in service using docker-compose
+    _env:
+        - container:
+            completion: @{prefix}_list/
+        - flags:
+            value: ${flags--ti}
+        - cmd:
+            desc: Command to execute inside container which will execute the RUN variable, leave blank for default.
+        - args:
+            title: Arguments to pass to shell, leave blank for interactive shell.
+        - SPACE_ARGS:
+            arguments:
+                -
+                    completion: @{prefix}_list/
+                -
+                    values:
+                        - "-ti"
+                -
+                    values:
+                        - cmd
+                -
+                    values:
+                        - arguments
+        - RUN: DOCKER_EXEC -- "${container-}" "${flags-}" "${cmd-}" "${args-}"
+
+_list:
+    @include: docker|/ps/
+    _env:
+        - SPACE_ARGS: --format "{{.Names}}" -|
 ...

@@ -258,8 +258,8 @@ DOCKER_COMPOSE_DOWN()
 #
 # Take a docker compose file and check the status of the services.
 #
-# This is wrapper so that we can figure out the yaml path
-# and set the redirection correctly.
+# This is build time function that sets a wrapper so that we can
+# figure out the yaml path and set the redirection correctly.
 #
 # Parameters:
 #   $1: path to docker compose yaml file to use.
@@ -480,121 +480,6 @@ DOCKER_COMPOSE_LOGS()
     local SPACE_REDIR="<${composefile}"
     local SPACE_ARGS="-f - -p \"${name}\" logs $*"
     YIELD "SPACE_REDIR"
-    YIELD "SPACE_ARGS"
-}
-
-#====================
-# DOCKER_COMPOSE_EXEC
-#
-# Exec a command inside a docker container.
-#
-# The "name" is the name of the Docker composition, which usually is the
-# part of the docker compose file as "name-docker-compose.yaml".
-#
-# The "container" is the container name as stated in the docker compose yaml file
-# (without any index prefix).
-#
-# flags are usually set to "-i" or "-it" if you want a terminal connected.
-#
-# cmd could be "/bin/sh", "/bin/sh -c", etc.
-# An interactive shell would simply be "sh", "bash", "/bin/sh" or similar.
-# A shell which runs arguments passed to it would typically have the "-c" option set.
-#
-# args are the arguments passed to the "cmd".
-# If "cmd" is a shell with the -c option set then "args" are expected.
-#
-# Parameters:
-#   $1: name, optional name for the composition.
-#   $2: container the name of the container (excluding index prefix which is set to 1).
-#   $3: docker exec flags
-#   $4: cmd command to run, ex "sh -c".
-#   $5: args, optional args to cmd.
-#
-# Returns:
-#   non-zero on error.
-#
-#====================
-DOCKER_COMPOSE_EXEC()
-{
-    SPACE_SIGNATURE="name container flags cmd [args]"
-    SPACE_FN="DOCKER_EXEC"
-    SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST STRING_ESCAPE"
-
-    local name="${1}"
-    shift
-
-    local container="${1}"
-    shift
-
-    local flags="${1:--ti}"
-    shift
-
-    local cmd="${1}"
-    shift
-
-    # Make name docker friendly.
-    STRING_SUBST "name" "-" "" 1
-    STRING_SUBST "name" "_" "" 1
-    STRING_SUBST "name" "." "" 1
-
-    if [ -n "${name}" ]; then
-        container="${name}_${container}"
-    fi
-
-    local index="1"
-    container="${container}_${index}"
-
-    local _args="$@"
-    STRING_ESCAPE "_args"
-
-    local SPACE_ARGS="\"${container}\" \"${flags}\" \"${cmd}\" \"${_args}\""
-    YIELD "SPACE_ARGS"
-}
-
-#=====================
-# DOCKER_COMPOSE_ENTER
-#
-# Enter into shell in a docker container.
-#
-# Parameters:
-#   $1: name, optional name for the composition.
-#   $2: container the name of the container (excluding index prefix which is set to 1).
-#   $3: cmd, optional shell, defaults to "sh".
-#
-# Returns:
-#   non-zero on error
-#
-#=====================
-DOCKER_COMPOSE_ENTER()
-{
-    SPACE_SIGNATURE="name container [cmd]"
-    SPACE_FN="DOCKER_ENTER"
-    SPACE_BUILDARGS="${SPACE_ARGS}"
-    SPACE_BUILDDEP="STRING_SUBST"
-
-    local name="${1}"
-    shift
-
-    local container="${1}"
-    shift
-
-    # Make name docker friendly.
-    STRING_SUBST "name" "-" "" 1
-    STRING_SUBST "name" "_" "" 1
-    STRING_SUBST "name" "." "" 1
-
-    if [ -n "${name}" ]; then
-        container="${name}_${container}"
-    fi
-
-    local index="1"
-    container="${container}_${index}"
-
-    local cmd="${1-}"
-    shift $(( $# > 0 ? 1 : 0 ))
-
-    local SPACE_ARGS="\"${container}\" \"${cmd}\""
     YIELD "SPACE_ARGS"
 }
 
