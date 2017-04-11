@@ -217,4 +217,5 @@ _list:
         - SPACE_ARGS: --format "{{.Names}}" -|
         - SPACE_REDIR: "2>/dev/null"
         - SPACE_MUTE_EXIT: 1
+        - SPACE_LOG_LEVEL: 0
 ...
