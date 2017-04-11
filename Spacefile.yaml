@@ -68,7 +68,7 @@ up:
         desc: |
             Launch services using "docker-compose".
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -78,13 +78,13 @@ up:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_UP -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_UP -- "${composefile-}" ${composename-}
 
 down:
     _info:
         title: Un-deploy services using docker-compose
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -94,13 +94,13 @@ down:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_DOWN -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_DOWN -- "${composefile-}" ${composename-}
 
 ps:
     _info:
         title: Get status of services using docker-compose
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -110,12 +110,12 @@ ps:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${composename-}
 rm:
     _info:
         title: Remove all services using docker-compose
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -125,13 +125,13 @@ rm:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_RM -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_RM -- "${composefile-}" ${composename-}
 
 pull:
     _info:
         title: Pull all service images using docker-compose
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -141,13 +141,13 @@ pull:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_PULL -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_PULL -- "${composefile-}" ${composename-}
 
 logs:
     _info:
         title: Get logs of services using docker-compose
     _env:
-        - name:
+        - composename:
             title: The optional name of the composition.
             desc: If not given then the name will be derived from the composefile.
         - composefile:
@@ -157,7 +157,7 @@ logs:
             arguments:
                 -
                     completion: G
-        - RUN: DOCKER_COMPOSE_LOGS -- "${composefile-}" ${name-}
+        - RUN: DOCKER_COMPOSE_LOGS -- "${composefile-}" ${composename-}
 
 enter:
     @prefix: @{PARENTPATH}
