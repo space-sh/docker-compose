@@ -522,7 +522,7 @@ Example:
 This will deploy the compose file using the local docker-compose.
 To deploy onto a remote server you could sneak in the space ssh module
 and wrap the command, kind of like:
-${composefile} -m ssh /user/wrap/ -esshuser=astro -esshkeyfile= -esshhost=example.com -- UP
+${composefile} -m ssh /wrap/ -eSSHUSER=spacegal -eSSHKEYFILE= -eSSHHOST=example.com -- up
 Notice that all arguments before the '--' are arguments to Space, arguments after '--' are
 arguments to Space's 'docker-compose' module.
 
