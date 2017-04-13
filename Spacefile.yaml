@@ -68,12 +68,12 @@ up:
         desc: |
             Launch services using "docker-compose".
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -84,12 +84,12 @@ down:
     _info:
         title: Un-deploy services using docker-compose
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -100,12 +100,12 @@ ps:
     _info:
         title: Get status of services using docker-compose
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -115,12 +115,12 @@ rm:
     _info:
         title: Remove all services using docker-compose
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -131,12 +131,12 @@ pull:
     _info:
         title: Pull all service images using docker-compose
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -147,12 +147,12 @@ logs:
     _info:
         title: Get logs of services using docker-compose
     _env:
-        - composename:
-            title: The optional name of the composition.
-            desc: If not given then the name will be derived from the composefile.
         - composefile:
             title: The Docker Compose file
             completion: G
+        - composename:
+            title: The optional name of the composition.
+            desc: If not given then the name will be derived from the composefile.
         - SPACE_ARGS:
             arguments:
                 -
@@ -164,7 +164,12 @@ enter:
     @dotdot: prefix
     _info:
         title: Enter with a shell into a running container
+        desc: |
+            Set variable composename to have auto
+            completion be filtered on that.
     _env:
+        - composename:
+            title: The prefix for filtering container names.
         - container:
             completion: @{prefix}_list/
         - shell:
@@ -186,8 +191,13 @@ exec:
     @prefix: @{PARENTPATH}
     @dotdot: prefix
     _info:
-        title: Exec command in service using docker-compose
+        title: Exec command in service using docker
+        desc: |
+            Set variable composename to have auto
+            completion be filtered on that.
     _env:
+        - composename:
+            title: The prefix for filtering container names.
         - container:
             completion: @{prefix}_list/
         - flags:
@@ -215,7 +225,7 @@ _list:
     @include: docker|/ps/
     _env:
         - SPACE_ARGS: --format "{{.Names}}" -|
-        - SPACE_REDIR: "2>/dev/null"
+        - SPACE_REDIR: "|grep \"^${composename-}\" 2>/dev/null"
         - SPACE_MUTE_EXIT: 1
         - SPACE_LOG_LEVEL: 0
 ...
