@@ -16,6 +16,9 @@
 ---
 _clone:
     @clone: os docker string
+    @include: os|/_clone/
+    @include: docker|/_clone/
+    @include: string|/_clone/
 @include: |/_clone/
 
 _info:
@@ -28,9 +31,13 @@ _dep_install:
             Downloads and installs the latest Docker Engine and Compose from Docker.
             Also adds the "targetuser" to the docker group.
     _env:
-        - targetuser: ${targetuser:-${SSHUSER-}}
+        - targetuser:
+            value: ${targetuser:-$USER}
         - composeversion:
-        - RUN: DOCKER_COMPOSE_DEP_INSTALL -- "${targetuser-}" "${composeversion-}"
+            value: ${composeversion:-1.9.0}
+            values:
+                - 1.9.0
+        - RUN: DOCKER_COMPOSE_DEP_INSTALL -- "${targetuser}" "${composeversion}"
 
 install:
     _info:
@@ -41,12 +48,15 @@ install:
     _env:
         - composeversion:
             title: What version of Compose to install, leave blank for default.
+            value: ${composeversion:-1.9.0}
+            values:
+                - 1.9.0
         - SPACE_ARGS:
             arguments:
                 -
                     values:
-                        - version
-        - RUN: DOCKER_COMPOSE_INSTALL -- "${composeversion-}"
+                        - 1.9.0
+        - RUN: DOCKER_COMPOSE_INSTALL -- "${composeversion}"
 
 _shebang:
     _info:
@@ -77,8 +87,13 @@ up:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_UP -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_UP -- "${composefile}" "${composename}"
 
 down:
     _info:
@@ -93,8 +108,13 @@ down:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_DOWN -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_DOWN -- "${composefile}" "${composename}"
 
 ps:
     _info:
@@ -109,8 +129,13 @@ ps:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_PS -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_PS -- "${composefile}" "${composename}"
 rm:
     _info:
         title: Remove all services using docker-compose
@@ -124,8 +149,13 @@ rm:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_RM -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_RM -- "${composefile}" "${composename}"
 
 pull:
     _info:
@@ -140,8 +170,13 @@ pull:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_PULL -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_PULL -- "${composefile}" "${composename}"
 
 logs:
     _info:
@@ -156,8 +191,13 @@ logs:
         - SPACE_ARGS:
             arguments:
                 -
+                    title: Compose file
                     completion: G
-        - RUN: DOCKER_COMPOSE_LOGS -- "${composefile-}" ${composename-}
+                -
+                    title: Name
+                    values:
+                        - name
+        - RUN: DOCKER_COMPOSE_LOGS -- "${composefile}" "${composename}"
 
 enter:
     @prefix: @{PARENTPATH}
@@ -185,7 +225,7 @@ enter:
                     values:
                         - sh
                         - bash
-        - RUN: DOCKER_ENTER -- "${container-}" "${shell-}"
+        - RUN: DOCKER_ENTER -- "${container}" "${shell}"
 
 exec:
     @prefix: @{PARENTPATH}
@@ -219,7 +259,7 @@ exec:
                 -
                     values:
                         - arguments
-        - RUN: DOCKER_EXEC -- "${container-}" "${flags-}" "${cmd-}" "${args-}"
+        - RUN: DOCKER_EXEC -- "${container}" "${flags}" "${cmd}" "${args}"
 
 _list:
     @include: docker|/ps/

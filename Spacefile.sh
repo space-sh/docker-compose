@@ -38,7 +38,7 @@
 #======================
 DOCKER_COMPOSE_DEP_INSTALL()
 {
-    SPACE_SIGNATURE="targetuser [composeversion]"
+    SPACE_SIGNATURE="targetuser:1 [composeversion]"
     SPACE_DEP="PRINT OS_IS_INSTALLED DOCKER_INSTALL DOCKER_COMPOSE_INSTALL"
 
     local targetuser="${1}"
@@ -135,7 +135,7 @@ DOCKER_COMPOSE_INSTALL()
 #=====================
 DOCKER_COMPOSE()
 {
-    SPACE_SIGNATURE="args"
+    SPACE_SIGNATURE="args:1"
     docker-compose "$@"
 }
 
@@ -157,7 +157,7 @@ DOCKER_COMPOSE()
 #=====================
 DOCKER_COMPOSE_UP()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile:1 [name]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -214,7 +214,7 @@ DOCKER_COMPOSE_UP()
 #=======================
 DOCKER_COMPOSE_DOWN()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile:1 [name]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -271,7 +271,7 @@ DOCKER_COMPOSE_DOWN()
 #=======================
 DOCKER_COMPOSE_PS()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile:1 [name]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -328,7 +328,7 @@ DOCKER_COMPOSE_PS()
 #=======================
 DOCKER_COMPOSE_PULL()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile:1 [name]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -385,7 +385,7 @@ DOCKER_COMPOSE_PULL()
 #=======================
 DOCKER_COMPOSE_RM()
 {
-    SPACE_SIGNATURE="composefile [name]"
+    SPACE_SIGNATURE="composefile:1 [name]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -443,7 +443,7 @@ DOCKER_COMPOSE_RM()
 #=======================
 DOCKER_COMPOSE_LOGS()
 {
-    SPACE_SIGNATURE="composefile [name args]"
+    SPACE_SIGNATURE="composefile:1 [name args]"
     SPACE_FN="DOCKER_COMPOSE"
     SPACE_BUILDARGS="${SPACE_ARGS}"
     SPACE_BUILDDEP="STRING_SUBST PRINT"
@@ -491,7 +491,7 @@ DOCKER_COMPOSE_LOGS()
 #=============================
 _DOCKER_COMPOSE_SHEBANG_OUTER()
 {
-    SPACE_SIGNATURE="composefile name command [args]"
+    SPACE_SIGNATURE="composefile:1 name command [args]"
     # shellcheck disable=2034
     SPACE_DEP="PRINT"
 
@@ -555,7 +555,7 @@ arguments to Space's 'docker-compose' module.
 DOCKER_COMPOSE_SHEBANG()
 {
     # shellcheck disable=2034
-    SPACE_SIGNATURE="composefile [command] [args]"
+    SPACE_SIGNATURE="composefile:1 [command] [args]"
     # shellcheck disable=2034
     SPACE_FN="DOCKER_COMPOSE"
     # shellcheck disable=2034
