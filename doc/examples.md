@@ -17,7 +17,7 @@ To deploy a `docker-compose.yaml` file locally, simply do:
 $ space -m docker-compose /up/ -- docker-compose.yaml
 ```
 
-Or preferrably using `-e` variables:  
+Or preferably using `-e` variables:  
 
 ```sh
 $ space -m docker-compose /up/ -e composefile=docker-compose.yaml
