@@ -15,6 +15,8 @@
 #
 
 
+# Disable warning about local keyword
+# shellcheck disable=2039
 # Disable warning about checking exit code indirectly
 # shellcheck disable=2181
 
@@ -86,6 +88,10 @@ DOCKER_COMPOSE_DEP_INSTALL()
     fi
 }
 
+
+# Disable warning about local keyword
+# shellcheck disable=2039
+
 #======================
 # DOCKER_COMPOSE_INSTALL
 #
@@ -138,6 +144,10 @@ DOCKER_COMPOSE()
     SPACE_SIGNATURE="args:1"
     docker-compose "$@"
 }
+
+
+# Disable warning about local keyword
+# shellcheck disable=2039
 
 #=====================
 # DOCKER_COMPOSE_UP
@@ -196,6 +206,10 @@ DOCKER_COMPOSE_UP()
     YIELD "SPACE_ARGS"
 }
 
+
+# Disable warning about local keyword
+# shellcheck disable=2039
+
 #=======================
 # DOCKER_COMPOSE_DOWN
 #
@@ -252,6 +266,10 @@ DOCKER_COMPOSE_DOWN()
     YIELD "SPACE_REDIR"
     YIELD "SPACE_ARGS"
 }
+
+
+# Disable warning about local keyword
+# shellcheck disable=2039
 
 #=======================
 # DOCKER_COMPOSE_PS
@@ -310,6 +328,10 @@ DOCKER_COMPOSE_PS()
     YIELD "SPACE_ARGS"
 }
 
+
+# Disable warning about local keyword
+# shellcheck disable=2039
+
 #=======================
 # DOCKER_COMPOSE_PULL
 #
@@ -366,6 +388,10 @@ DOCKER_COMPOSE_PULL()
     YIELD "SPACE_REDIR"
     YIELD "SPACE_ARGS"
 }
+
+
+# Disable warning about local keyword
+# shellcheck disable=2039
 
 #=======================
 # DOCKER_COMPOSE_RM
@@ -425,6 +451,9 @@ DOCKER_COMPOSE_RM()
 }
 
 
+# Disable warning about local keyword
+# shellcheck disable=2039
+
 #=======================
 # DOCKER_COMPOSE_LOGS
 #
@@ -483,6 +512,10 @@ DOCKER_COMPOSE_LOGS()
     YIELD "SPACE_ARGS"
 }
 
+
+# Disable warning about local keyword
+# shellcheck disable=2039
+
 #=============================
 #
 # _DOCKER_COMPOSE_SHEBANG_OUTER()
@@ -537,6 +570,10 @@ arguments to Space's 'docker-compose' module.
 
     _RUN_
 }
+
+
+# Disable warning about local keyword
+# shellcheck disable=2039
 
 #=====================
 # DOCKER_COMPOSE_SHEBANG
