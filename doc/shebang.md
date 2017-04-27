@@ -13,7 +13,7 @@ As you might know the shebang line is the first line in a shell script that dete
 interpretor to run for the script. For Bash scripts it is usually `#!/bin/env bash`.
 
 We can add a shebang line that tells the kernel that we want the _Space_ module
-_docker-compose_ to be the interpretor so it can directly run the yaml file.
+_docker-compose_ to be the interpreter so it can directly run the yaml file.
 
 For Linux add this line as the very first line in your `docker-compose.yaml` file:  
 ```sh
