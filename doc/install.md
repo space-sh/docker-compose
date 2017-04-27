@@ -6,7 +6,7 @@ weight: 200
 ---
 # Docker-compose module: Install
 
-Downloads and installs the latest _Docker Compose_, overwritting existing installation.
+Downloads and installs the latest _Docker Compose_, overwriting existing installation.
 
 
 ## Example
