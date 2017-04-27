@@ -1,4 +1,4 @@
-#  | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/build.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
+# Docker Compose management. | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/build.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
 
 
 ## /down/
@@ -8,9 +8,17 @@
 ## /enter/
 	Enter with a shell into a running container
 
+	Set variable composename to have auto
+	completion be filtered on that.
+	
+
 
 ## /exec/
-	Exec command in service using docker-compose
+	Exec command in service using docker
+
+	Set variable composename to have auto
+	completion be filtered on that.
+	
 
 
 ## /install/
@@ -140,8 +148,8 @@ and set the redirection correctly.
   
 Take a docker compose file and check the status of the services.  
   
-This is wrapper so that we can figure out the yaml path  
-and set the redirection correctly.  
+This is build time function that sets a wrapper so that we can  
+figure out the yaml path and set the redirection correctly.  
   
 ### Parameters:  
 - $1: path to docker compose yaml file to use.  
@@ -203,55 +211,6 @@ and set the redirection correctly.
   
 ### Returns:  
 - non-zero on error.  
-  
-  
-  
-## DOCKER\_COMPOSE\_EXEC()  
-  
-  
-  
-Exec a command inside a docker container.  
-  
-The "name" is the name of the Docker composition, which usually is the  
-part of the docker compose file as "name-docker-compose.yaml".  
-  
-The "container" is the container name as stated in the docker compose yaml file  
-(without any index prefix).  
-  
-flags are usually set to "-i" or "-it" if you want a terminal connected.  
-  
-cmd could be "/bin/sh", "/bin/sh -c", etc.  
-An interactive shell would simply be "sh", "bash", "/bin/sh" or similar.  
-A shell which runs arguments passed to it would typically have the "-c" option set.  
-  
-args are the arguments passed to the "cmd".  
-If "cmd" is a shell with the -c option set then "args" are expected.  
-  
-### Parameters:  
-- $1: name, optional name for the composition.  
-- $2: container the name of the container (excluding index prefix which is set to 1).  
-- $3: docker exec flags  
-- $4: cmd command to run, ex "sh -c".  
-- $5: args, optional args to cmd.  
-  
-### Returns:  
-- non-zero on error.  
-  
-  
-  
-## DOCKER\_COMPOSE\_ENTER()  
-  
-  
-  
-Enter into shell in a docker container.  
-  
-### Parameters:  
-- $1: name, optional name for the composition.  
-- $2: container the name of the container (excluding index prefix which is set to 1).  
-- $3: cmd, optional shell, defaults to "sh".  
-  
-### Returns:  
-- non-zero on error  
   
   
   
