@@ -626,7 +626,7 @@ DOCKER_COMPOSE_SHEBANG()
     if [ "${cmd}" = "rm" ] && [ -z "${_args}" ]; then
         _args="-f"
     fi
-    STRING_ESCAPE "_args"
+    STRING_ESCAPE "_args" '"'
 
     # shellcheck disable=2034
     local SPACE_OUTERARGS="${composefile} ${name} ${cmd} ${_args:+\"${_args}\"}"
