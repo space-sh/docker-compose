@@ -65,9 +65,6 @@ installed otherwise install them.
 - $1: user to add to docker group.  
 - $2: the compose version to download and install (optional).  
   
-### Expects:  
-- ${SUDO}: set to "sudo" to run as sudo.  
-  
 ### Returns:  
 - 0: success  
 - 1: failure  
@@ -82,9 +79,6 @@ Install latest Docker Compose.
   
 ### Parameters:  
 - $1: the compose version to download and install (optional).  
-  
-### Expects:  
-- ${SUDO}: set to "sudo" to run as sudo.  
   
 ### Returns:  
 - 0: success  
