@@ -68,7 +68,7 @@ DOCKER_COMPOSE_DEP_INSTALL()
     local _version_output=
     local _version=
     local _version_maj=
-    local _versions_min=
+    local _version_min=
     _version_output="$(docker-compose -v)"
     _version="${_version_output#docker-compose version }"
     _version="${_version%,*}"
