@@ -48,14 +48,14 @@ install:
     _env:
         - composeversion:
             title: What version of Compose to install, leave blank for default.
-            value: ${composeversion:-1.9.0}
+            value: ${composeversion:-1.13.0}
             values:
-                - 1.9.0
+                - 1.13.0
         - SPACE_ARGS:
             arguments:
                 -
                     values:
-                        - 1.9.0
+                        - 1.13.0
         - RUN: DOCKER_COMPOSE_INSTALL -- "${composeversion}"
 
 _shebang:

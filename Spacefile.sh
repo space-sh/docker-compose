@@ -59,6 +59,9 @@ DOCKER_COMPOSE_DEP_INSTALL()
         PRINT "Docker Compose is already installed. To reinstall run: space -m docker-compose /install/." "ok"
     else
         DOCKER_COMPOSE_INSTALL "${targetuser}" "${composeversion}"
+        if [ "$?" -gt 0 ]; then
+            return 1
+        fi
     fi
 
     # Read docker-compose version
@@ -107,13 +110,24 @@ DOCKER_COMPOSE_INSTALL()
     SPACE_SIGNATURE="[composeversion]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"
 
-    local composeversion="${1:-1.9.0}"
+    local composeversion="${1:-1.13.0}"
     shift $(( $# > 0 ? 1 : 0 ))
 
-    PRINT "Install Docker Compose.." "info"
+    PRINT "Install Docker Compose version: ${composeversion}." "info"
 
-    OS_IS_INSTALLED "curl" "curl" &&
-    curl -sSL "https://github.com/docker/compose/releases/download/{$composeversion}/docker-compose-$(uname -s)-$(uname -m)" | tee "/usr/local/bin/docker-compose" >/dev/null &&
+    if ! OS_IS_INSTALLED "curl" "curl"; then
+        PRINT "curl is not installed, cannot continue." "error"
+        return 1
+    fi
+    if ! touch /usr/local/bin/docker-compose; then
+        PRINT "Could not write to: /usr/local/bin/docker-compose, try running with -s sudo" "error"
+        return 1
+    fi
+    curl -fsSL "https://github.com/docker/compose/releases/download/{$composeversion}/docker-compose-$(uname -s)-$(uname -m)" > /usr/local/bin/docker-compose
+    if [ "$?" -gt 0 ]; then
+        PRINT "Could not download Docker Compose version ${composeversion} for this platform." "error"
+        return 1
+    fi
     chmod +x /usr/local/bin/docker-compose
 }
 
