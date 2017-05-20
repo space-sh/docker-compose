@@ -1,5 +1,12 @@
 # Space Module change log - docker-compose
 
+## [1.0.3 - 2017-05-20]
+
+* Improve error handling
+
+* Bump default Compose version
+
+
 ## [1.0.2 - 2017-05-16]
 
 * Change `STRING_ESCAPE` to only do quotes in `DOCKER_COMPOSE_SHEBANG` function
