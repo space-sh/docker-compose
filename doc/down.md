@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /down/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/down.md
 weight: 200
 ---
 # Docker-compose module: Down

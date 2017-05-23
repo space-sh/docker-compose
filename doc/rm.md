@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /rm/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/rm.md
 weight: 200
 ---
 # Docker-compose module: Remove

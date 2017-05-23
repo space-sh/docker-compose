@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: Overview
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/index.md
 weight: 100
 ---
 # Docker-compose module

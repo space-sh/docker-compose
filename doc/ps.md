@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /ps/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/ps.md
 weight: 200
 ---
 # Docker-compose module: Process status

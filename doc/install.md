@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /install/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/install.md
 weight: 200
 ---
 # Docker-compose module: Install

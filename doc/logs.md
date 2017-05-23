@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /logs/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/logs.md
 weight: 200
 ---
 # Docker-compose module: Logs

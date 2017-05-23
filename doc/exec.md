@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /exec/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/exec.md
 weight: 200
 ---
 # Docker-compose module: Execute

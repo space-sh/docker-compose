@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /enter/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/enter.md
 weight: 200
 ---
 # Docker-compose module: Enter

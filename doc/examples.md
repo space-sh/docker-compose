@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: Examples
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/examples.md
 weight: 200
 ---
 # Docker Compose Module

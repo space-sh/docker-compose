@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: /pull/
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/pull.md
 weight: 200
 ---
 # Docker-compose module: Pull

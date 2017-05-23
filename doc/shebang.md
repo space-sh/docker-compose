@@ -2,6 +2,7 @@
 modulename: Docker-compose
 title: Shebang
 giturl: gitlab.com/space-sh/docker-compose
+editurl: /edit/master/doc/shebang.md
 weight: 200
 ---
 # Docker-compose module: #!shebang
