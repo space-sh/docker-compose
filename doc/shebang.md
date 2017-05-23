@@ -29,14 +29,14 @@ For MacOS systems add this line instead:
 Then you need to make the yaml file executable:  
 
 ```sh
-$ chmod +x docker-compose.yaml
+chmod +x docker-compose.yaml
 ```
 
 Alright, it should be runnable directly from command line:  
 ```sh
-$ ./docker-compose.yaml -- up
-$ ./docker-compose.yaml -- ps
-$ ./docker-compose.yaml -- down
+./docker-compose.yaml -- up
+./docker-compose.yaml -- ps
+./docker-compose.yaml -- down
 ```
 
 Pretty neat, uh?  
@@ -44,7 +44,7 @@ Pretty neat, uh?
 Oh, there is more. We can wrap it using the SSH module to have it being deployed remotely:  
 
 ```sh
-$ ./docker-compose.yaml -m ssh /wrap/ -eSSHHOST=address -- up
+./docker-compose.yaml -m ssh /wrap/ -eSSHHOST=address -- up
 ```
 
 It is important to add `-m ssh /wrap/ -eSSHHOST=address` before the double dash `--`.

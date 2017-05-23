@@ -14,12 +14,12 @@ Enter into shell in a running container.
 
 Enter into shell in container named `space_container`:
 ```sh
-$ space -m docker-compose /enter/ -econtainer=space_container
+space -m docker-compose /enter/ -econtainer=space_container
 ```  
 
 Enter into shell in container and use bash tab completion to help you find the container name:  
 ```sh
-$ space -m docker-compose /enter/ -ecomposename=space -econtainer=[tab][tab]
+space -m docker-compose /enter/ -ecomposename=space -econtainer=[tab][tab]
 ```
 
 In the above example the module will filter auto completion container names on `composename`.
