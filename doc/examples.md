@@ -7,8 +7,8 @@ weight: 200
 ---
 # Docker Compose Module
 
-The SpaceGal Docker Compose module is an interface to the Docker Compose command line tool.  
-By having an interface to the Docker compose tool we can apply the SpaceGal Shell power to it.  
+The Space.sh Docker Compose module is an interface to the Docker Compose command line tool.  
+By having an interface to the Docker compose tool we can apply the Space.sh power to it.  
 
 ## Deploy a compose file over SSH
 

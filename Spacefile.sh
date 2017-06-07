@@ -542,7 +542,7 @@ _DOCKER_COMPOSE_SHEBANG_OUTER()
     shift
 
     if [ "${cmd}" = "help" ]; then
-        printf "%s\n" "This is the SpaceGal wrapper over docker-compose.
+        printf "%s\n" "This is the Space.sh wrapper over docker-compose.
 Pass in a COMMAND which will get passed on to docker-compose:
     up
     down
