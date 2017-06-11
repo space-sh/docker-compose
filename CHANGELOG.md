@@ -1,5 +1,10 @@
 # Space Module change log - docker-compose
 
+## [1.0.4 - 2017-06-11]
+
+* Update documentation
+
+
 ## [1.0.3 - 2017-05-20]
 
 * Improve error handling
