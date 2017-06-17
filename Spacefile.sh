@@ -91,6 +91,8 @@ DOCKER_COMPOSE_DEP_INSTALL()
 
 # Disable warning about local keyword
 # shellcheck disable=2039
+# Disable warning about checking exit code indirectly
+# shellcheck disable=2181
 
 #======================
 # DOCKER_COMPOSE_INSTALL
