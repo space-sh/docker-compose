@@ -261,6 +261,20 @@ exec:
                         - arguments
         - RUN: DOCKER_EXEC -- "${container}" "${flags}" "${cmd}" "${args}"
 
+wrap_exec:
+    @prefix: @{PARENTPATH}
+    @dotdot: prefix
+    _info:
+        title: Exec a command inside an existing container
+    _env:
+        - DOCKERFLAGS:
+            value: ${DOCKERFLAGS--i}
+        - DOCKERCONTAINER:
+            completion: @{prefix}_list/
+        - DOCKERCMD:
+            desc: Command to execute inside container which will execute the RUN variable, leave blank for default.
+        - SPACE_WRAP: DOCKER_WRAP_EXEC
+
 _list:
     @include: docker|/ps/
     _env:
