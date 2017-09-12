@@ -241,7 +241,7 @@ exec:
         - container:
             completion: @{prefix}_list/
         - flags:
-            value: ${flags--ti}
+            value: ${flags--i}
         - cmd:
             desc: Command to execute inside container which will execute the RUN variable, leave blank for default.
         - args:
