@@ -52,6 +52,10 @@
 	
 
 
+## /wrap_exec/
+	Exec a command inside an existing container
+
+
 # Functions 
 
 ## DOCKER\_COMPOSE\_DEP\_INSTALL()  
