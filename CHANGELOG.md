@@ -1,5 +1,14 @@
 # Space Module change log - docker-compose
 
+## [1.1.0 - 2017-09-29]
+
++ Add `/wrap_exec/`
+
+* Update default exec flags
+
+- Disable false positive warnings
+
+
 ## [1.0.4 - 2017-06-11]
 
 * Update documentation
