@@ -112,7 +112,7 @@ DOCKER_COMPOSE_INSTALL()
     SPACE_SIGNATURE="[composeversion]"
     SPACE_DEP="PRINT OS_IS_INSTALLED"
 
-    local composeversion="${1:-1.13.0}"
+    local composeversion="${1:-1.16.1}"
     shift $(( $# > 0 ? 1 : 0 ))
 
     PRINT "Install Docker Compose version: ${composeversion}." "info"
@@ -125,7 +125,9 @@ DOCKER_COMPOSE_INSTALL()
         PRINT "Could not write to: /usr/local/bin/docker-compose, try running with -s sudo" "error"
         return 1
     fi
-    curl -fsSL "https://github.com/docker/compose/releases/download/{$composeversion}/docker-compose-$(uname -s)-$(uname -m)" > /usr/local/bin/docker-compose
+    local link="https://github.com/docker/compose/releases/download/${composeversion}/docker-compose-$(uname -s)-$(uname -m)" 
+    PRINT "Download: ${link}"
+    curl -fsSL "${link}" > /usr/local/bin/docker-compose
     if [ "$?" -gt 0 ]; then
         PRINT "Could not download Docker Compose version ${composeversion} for this platform." "error"
         return 1

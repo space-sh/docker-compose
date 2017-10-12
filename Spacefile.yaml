@@ -48,7 +48,7 @@ install:
     _env:
         - composeversion:
             title: What version of Compose to install, leave blank for default.
-            value: ${composeversion:-1.13.0}
+            value: ${composeversion-}
             values:
                 - 1.13.0
         - SPACE_ARGS:
