@@ -259,7 +259,7 @@ exec:
                 -
                     values:
                         - arguments
-        - RUN: DOCKER_EXEC -- "${container}" "${flags}" "${cmd}" "${args}"
+        - RUN: DOCKER_EXEC -- "${container}" "${flags}" "${cmd}" ${args}
 
 wrap_exec:
     @prefix: @{PARENTPATH}
