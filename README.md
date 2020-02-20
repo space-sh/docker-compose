@@ -1,4 +1,4 @@
-# Docker Compose management. | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/build.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
+# Docker Compose management. | [![build status](https://gitlab.com/space-sh/docker-compose/badges/master/pipeline.svg)](https://gitlab.com/space-sh/docker-compose/commits/master)
 
 
 ## /down/
