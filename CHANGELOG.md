@@ -1,5 +1,10 @@
 # Space Module change log - docker-compose
 
+## [1.1.3 - 2020-02-20]
+
+* Update documentation
+
+
 ## [1.1.2 - 2020-02-18]
 
 * Update `/exec/` arguments
